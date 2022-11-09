@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 
+var morgan = require('morgan')
+const middleware = morgan('tiny')
+
 let persons = [
     {
         id: 1,
@@ -25,6 +28,7 @@ let persons = [
 ]
 
 app.use(express.json())
+app.use(middleware)
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
@@ -80,6 +84,10 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
+    morgan_log = morgan.token('type', function (req, res) {
+        return req.body.name
+    })
+
     const person = {
         name: body.name,
         number: body.number,
@@ -88,6 +96,7 @@ app.post('/api/persons', (request, response) => {
 
     persons = persons.concat(person)
 
+    console.log(morgan_log)
     response.json(person)
 })
 
