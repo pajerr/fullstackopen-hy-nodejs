@@ -4,6 +4,8 @@ const app = express()
 var morgan = require('morgan')
 const middleware = morgan('tiny')
 
+app.use(express.static('build'))
+
 let persons = [
     {
         id: 1,
