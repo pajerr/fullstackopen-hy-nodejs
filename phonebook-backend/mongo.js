@@ -1,3 +1,4 @@
+require('dotenv').config()
 const mongoose = require('mongoose')
 
 //get password from cli arguments
@@ -10,7 +11,7 @@ if (process.argv.length < 3) {
     process.exit(1)
 }
 
-const url = `mongodb+srv://fullstack:${password}@cluster0.isxty0d.mongodb.net/noteApp?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URI
 
 const personSchema = new mongoose.Schema({
     name: String,
