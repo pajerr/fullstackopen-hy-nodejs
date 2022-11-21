@@ -4,8 +4,8 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-    "title": "rest client post",
+    "title": "rest client refactor",
     "author": "rest pro",
     "url": "fakeurl",
-    "likes": "9"
+    "likes": "99"
 }
