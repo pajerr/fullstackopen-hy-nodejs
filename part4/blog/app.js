@@ -3,9 +3,10 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const blogsRouter = require('./controllers/blogs')
+const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
 
 // MONGODB connection stuff
-require('dotenv').config()
 const mongoose = require('mongoose')
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl)
