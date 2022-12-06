@@ -1,0 +1,12 @@
+part4_nodejs_tests:
+  stage: test
+  image: node:latest
+  script:
+    - cd part4/blog
+    - export MONGODB_URI=$TEST_MONGODB_URI
+    - npm install
+    - npm run test
+  only:
+    changes:
+      - "part4/**"    
+      - ".gitlab-ci.yml"
