@@ -1,4 +1,4 @@
-//const Blog = require('../models/blog')
+const Blog = require('../models/blog')
 
 const initialBlogs = [
   {
@@ -19,6 +19,22 @@ const initialBlogs = [
   }
 ]
 
+const extraBlog = {
+  _id: '5a488aa71b54a676234d17f9',
+  title: 'For loop considered useful',
+  author: 'Dummy author',
+  url: 'dummyurl',
+  likes: 5,
+  __v: 0
+}
+
+const blogsInDb = async () => {
+  const blogs = await Blog.find({})
+  return blogs.map((blog) => blog.toJSON())
+}
+
 module.exports = {
-  initialBlogs
+  initialBlogs,
+  extraBlog,
+  blogsInDb
 }
