@@ -11,11 +11,13 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
-  // const blog = new Blog(request.body)
-  // blog.save().then((result) => {
-  //   response.status(201).json(result)
-  // })
   const blog = new Blog(request.body)
+
+  //respond with 400 if title or url is missing
+  if (!blog.title || !blog.url) {
+    return response.status(400).end()
+  }
+
   const result = await blog.save()
 
   response.status(201).json(result)

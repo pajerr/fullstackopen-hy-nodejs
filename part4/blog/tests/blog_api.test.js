@@ -38,7 +38,6 @@ test('blog entries have id property', async () => {
 test('a valid blog can be added', async () => {
   const newBlog = helper.extraBlog
 
-  console.log(newBlog)
   await api
     .post('/api/blogs')
     .send(newBlog)
@@ -48,6 +47,50 @@ test('a valid blog can be added', async () => {
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
   const contents = blogsAtEnd.map((blog) => blog.title)
   expect(contents).toContain(newBlog.title)
+})
+
+test('likes default to 0 in case likes are missing', async () => {
+  const BlogWithoutLikes = {
+    _id: '99a88aa71b84a676234d17f9',
+    title: 'Adding likes considered harmful',
+    author: 'Dummy author',
+    url: 'dummyurl',
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(BlogWithoutLikes)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  // find blog from response array
+  const createdBlog = response.body.find(
+    (blog) => blog.id === BlogWithoutLikes._id
+  )
+
+  // Verify that the blog has 0 likes
+  expect(createdBlog.likes).toBe(0)
+})
+
+test('it responds 400 with title or url is missing', async () => {
+  const BlogWithoutTitle = {
+    _id: '99a88aa71b84a676234d17f9',
+    author: 'Dummy author',
+    url: 'dummyurl',
+    __v: 0
+  }
+
+  const BlogWithoutURL = {
+    _id: '99a88aa71b84a676234d17f9',
+    title: 'Adding likes considered harmful',
+    author: 'Dummy author',
+    __v: 0
+  }
+
+  await api.post('/api/blogs').send(BlogWithoutTitle).expect(400)
+  await api.post('/api/blogs').send(BlogWithoutURL).expect(400)
 })
 
 afterAll(() => {
